@@ -2,8 +2,9 @@ services:
   web:
     image: abidkhan2/assignment2-web:v1
     container_name: assignment2-web
+    command: ["python", "-c", "import app; app.app.run(host='0.0.0.0', port=5001)"]
     ports:
-      - "8081:5000"
+      - "5000:5001"
     environment:
       DB_HOST: db
       DB_NAME: sp22bcs108
@@ -21,6 +22,11 @@ services:
       MYSQL_DATABASE: sp22bcs108
       MYSQL_USER: appuser
       MYSQL_PASSWORD: AppUser108
+    command:
+      - --innodb-buffer-pool-size=64M
+      - --performance-schema=OFF
+      - --max-connections=30
+    mem_limit: 350m
     volumes:
       - assignment2_dbdata:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
