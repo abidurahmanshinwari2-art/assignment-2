@@ -1,0 +1,28 @@
+services:
+  web:
+    image: abidkhan2/assignment2-web:v1
+    container_name: assignment2-web
+    ports:
+      - "8081:5000"
+    environment:
+      DB_HOST: db
+      DB_NAME: sp22bcs108
+      DB_USER: appuser
+      DB_PASSWORD: AppUser108
+    depends_on:
+      - db
+  db:
+    image: mysql:8.0
+    container_name: assignment2-db
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: RootPass108
+      MYSQL_DATABASE: sp22bcs108
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: AppUser108
+    volumes:
+      - assignment2_dbdata:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+volumes:
+  assignment2_dbdata:
